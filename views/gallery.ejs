@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Gallery - Aqua Splash</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header>
+    <h1>Gallery Hajduszoboszlo Aqua Park</h1>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/tickets">Tickets</a>
+      <a href="/gallery" class="active">Gallery</a>
+      <a href="/contact">Contact</a>
+    </nav>
+  </header>
+  
+  <main>
+    <section>
+      <h2>Gallery</h2>
+      <p>Browse through exciting photos of our water park attractions and happy guests!</p>
+    </section>
+    
+    <div class="gallery-container">
+      <div class="gallery-grid">
+        <!-- Individual gallery items, each with its own image -->
+        <div class="gallery-item">
+          <img src="https://hajduszoboszlo.hu/wp-content/uploads/2024/06/hajduszoboszlo-furdokomplexum-strand-fooldali-kep.jpg" alt="Aqua Park Overview">
+        </div>
+        
+        <div class="gallery-item">
+          <img src="https://hu.hedonexpress.ro/wp-content/uploads/2022/11/termalfurdo_hajduszoboszlo_hungarospa_.jpg" alt="Thermal Pool">
+        </div>
+        
+        <div class="gallery-item">
+          <img src="https://holidaysclubresorts.hu/wp-content/uploads/hajduszoboszlo-strand-premium-zona-5.jpg" alt="Premium Zone">
+        </div>
+        
+        <div class="gallery-item">
+          <img src="https://hajduszoboszlo.hu/wp-content/gallery/aquapark/aquapark-hajduszoboszlo-medence-becko-varral.jpg" alt="Pool with Castle">
+        </div>
+        
+        <div class="gallery-item">
+          <img src="https://hungarospa.hu/wp-content/uploads/2024/01/Premium-Zona2-scaled.jpg" alt="Premium Zone View">
+        </div>
+        
+        <div class="gallery-item">
+          <img src="https://hungarospa.hu/wp-content/uploads/2024/01/palmafak.jpg" alt="Palm Trees">
+        </div>
+        
+        <div class="gallery-item">
+          <img src="https://hungarospa.hu/wp-content/uploads/2024/01/tahiti-medence.jpg" alt="Tahiti Pool">
+        </div>
+      </div>
+    </div>
+    
+    <!-- Lightbox -->
+    <div class="lightbox">
+      <span class="lightbox-close">&times;</span>
+      <div class="lightbox-content">
+        <img class="lightbox-img" src="" alt="">
+        <div class="lightbox-nav">
+          <button class="lightbox-prev">&lt;</button>
+          <button class="lightbox-next">&gt;</button>
+        </div>
+      </div>
+      <div class="lightbox-caption"></div>
+    </div>
+  </main>
+  
+  <footer>
+    <p>&copy; 2025 Aqua Splash. All rights reserved.</p>
+  </footer>
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Get all gallery items for lightbox functionality
+      const galleryItems = document.querySelectorAll('.gallery-item');
+      
+      // Lightbox elements
+      const lightbox = document.querySelector('.lightbox');
+      const lightboxImg = document.querySelector('.lightbox-img');
+      const lightboxCaption = document.querySelector('.lightbox-caption');
+      const lightboxClose = document.querySelector('.lightbox-close');
+      const lightboxPrev = document.querySelector('.lightbox-prev');
+      const lightboxNext = document.querySelector('.lightbox-next');
+      
+      let currentIndex = 0;
+      
+      // Open lightbox when clicking on a gallery item
+      galleryItems.forEach((item, index) => {
+        item.addEventListener('click', () => {
+          currentIndex = index;
+          const img = item.querySelector('img');
+          
+          lightboxImg.src = img.src;
+          lightboxImg.alt = img.alt || '';
+          lightboxCaption.textContent = img.alt || '';
+          lightbox.style.display = 'flex';
+          document.body.style.overflow = 'hidden'; // Prevent scrolling
+        });
+      });
+      
+      // Close lightbox
+      lightboxClose.addEventListener('click', () => {
+        lightbox.style.display = 'none';
+        document.body.style.overflow = 'auto'; // Re-enable scrolling
+      });
+      
+      // Previous image
+      lightboxPrev.addEventListener('click', () => {
+        currentIndex = (currentIndex - 1 + galleryItems.length) % galleryItems.length;
+        const item = galleryItems[currentIndex];
+        const img = item.querySelector('img');
+        
+        lightboxImg.src = img.src;
+        lightboxImg.alt = img.alt || '';
+        lightboxCaption.textContent = img.alt || '';
+      });
+      
+      // Next image
+      lightboxNext.addEventListener('click', () => {
+        currentIndex = (currentIndex + 1) % galleryItems.length;
+        const item = galleryItems[currentIndex];
+        const img = item.querySelector('img');
+        
+        lightboxImg.src = img.src;
+        lightboxImg.alt = img.alt || '';
+        lightboxCaption.textContent = img.alt || '';
+      });
+      
+      // Close on clicking outside the image
+      lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) {
+          lightbox.style.display = 'none';
+          document.body.style.overflow = 'auto';
+        }
+      });
+      
+      // Keyboard navigation
+      document.addEventListener('keydown', (e) => {
+        if (lightbox.style.display === 'flex') {
+          if (e.key === 'Escape') {
+            lightbox.style.display = 'none';
+            document.body.style.overflow = 'auto';
+          } else if (e.key === 'ArrowLeft') {
+            lightboxPrev.click();
+          } else if (e.key === 'ArrowRight') {
+            lightboxNext.click();
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>
